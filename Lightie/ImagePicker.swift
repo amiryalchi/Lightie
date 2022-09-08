@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import AVFoundation
 
 struct ImagePicker: UIViewControllerRepresentable {
     
@@ -24,16 +25,21 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
-        //gjgjgj
+        //code
     }
     
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        
         var parent: ImagePicker
         private var pickedImage: Bool = true
+        var session: AVCaptureSession?
+        let output = AVCapturePhotoOutput()
+        let previewLayer = AVCaptureVideoPreviewLayer()
         
         init(_ parent: ImagePicker) {
             self.parent = parent   
         }
+        
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             
@@ -65,6 +71,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
+        
 
     }
     

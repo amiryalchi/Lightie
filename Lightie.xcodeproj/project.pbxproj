@@ -11,6 +11,7 @@
 		296FCD7228C81D8200CAE1CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 296FCD7128C81D8200CAE1CB /* Assets.xcassets */; };
 		296FCD7528C81D8200CAE1CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 296FCD7428C81D8200CAE1CB /* Preview Assets.xcassets */; };
 		296FCD7D28C8294000CAE1CB /* SlidingRuler in Frameworks */ = {isa = PBXBuildFile; productRef = 296FCD7C28C8294000CAE1CB /* SlidingRuler */; };
+		297E609828CA30400083D936 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E609728CA30400083D936 /* ViewController.swift */; };
 		29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A168DC28C908B800BBAB27 /* ImagePicker.swift */; };
 		29A168DE28C914C700BBAB27 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296FCD6F28C81D7D00CAE1CB /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -21,6 +22,7 @@
 		296FCD6F28C81D7D00CAE1CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		296FCD7128C81D8200CAE1CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		296FCD7428C81D8200CAE1CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		297E609728CA30400083D936 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		29A168DC28C908B800BBAB27 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -57,9 +59,10 @@
 			children = (
 				296FCD6D28C81D7D00CAE1CB /* LightieApp.swift */,
 				296FCD6F28C81D7D00CAE1CB /* ContentView.swift */,
+				29A168DC28C908B800BBAB27 /* ImagePicker.swift */,
 				296FCD7128C81D8200CAE1CB /* Assets.xcassets */,
 				296FCD7328C81D8200CAE1CB /* Preview Content */,
-				29A168DC28C908B800BBAB27 /* ImagePicker.swift */,
+				297E609728CA30400083D936 /* ViewController.swift */,
 			);
 			path = Lightie;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 			files = (
 				29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */,
 				296FCD6E28C81D7D00CAE1CB /* LightieApp.swift in Sources */,
+				297E609828CA30400083D936 /* ViewController.swift in Sources */,
 				29A168DE28C914C700BBAB27 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

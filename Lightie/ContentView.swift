@@ -9,6 +9,7 @@ import SwiftUI
 import SlidingRuler
 
 struct ContentView: View {
+
     @State private var selectedTab = 0
     @State private var shutterValue: Double = 125
     @State private var apertureValue: Double = 2.8
@@ -17,12 +18,22 @@ struct ContentView: View {
     @State private var pickedImage: Bool = false
     @State var reTakePhoto = false
     @State var imageSelected = UIImage()
+    @State var selector: Bool = false
     
+//    @State var width: CGRect
+//    @State var height: CGRect
+//
+//    init(){
+//        width = Image.siz
+//
+//    }
+//
     private var formatter: NumberFormatter {
-           let f = NumberFormatter()
-           f.numberStyle = .percent
-           f.maximumFractionDigits = 0
-           return f
+        let f = NumberFormatter()
+        f.numberStyle = .none
+        f.generatesDecimalNumbers = true
+        f.maximumFractionDigits = 0
+        return f
        }
     
     func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double) -> Double {
@@ -37,16 +48,18 @@ struct ContentView: View {
     
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double) -> Double {
 
-        let FN = exp((ev + log2(1 / aprSpeed) + log2(iso / 3.125)) / 2 )
+        let FN = exp((ev + log2(aprSpeed) + log2(iso / 3.125)) / 2 )
         
         print ("Calculated F Number: ", FN)
         print("ISO IS : ", isoValue)
         print("SHUTTER SPEED : ", shutterValue)
         return FN
     }
-    
-    
+        
     var body: some View {
+        
+        var liveView = HostedViewController()
+        
         VStack {
             Picker("Selected Mode", selection: $selectedTab, content: {
                 Text("Aperture").tag(0)
@@ -54,36 +67,41 @@ struct ContentView: View {
             })
             .pickerStyle(SegmentedPickerStyle())
             Spacer()
-            Image(uiImage: imageSelected)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(.horizontal, 3.0)
-                .border( .black, width: 5)
-                .cornerRadius(10)
+            ZStack{
+                liveView
+                    .cornerRadius(10)
+                Image(uiImage: imageSelected)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 3.0)
+                    .border( .black, width: 5)
+                    .cornerRadius(10)
+            }
+            
             SlidingRuler(value: $shutterValue,
-                         in: 0...60,
-                         step: 0.01,
-                         snap: .none,
-                         tick: .unit,
+                         in: 0...4,
+                         step: 0.1,
+                         snap: .half,
+                         tick: .half,
                          onEditingChanged: { Bool in
                 self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
             },
-                         formatter: formatter)
+                         formatter: formatter).allowsHitTesting(selector)
             SlidingRuler(value: $apertureValue,
                          in: 0...32,
-                         step: 0.1,
-                         snap: .fraction,
-                         tick: .fraction,
+                         step: 1.0,
+                         snap: .none,
+                         tick: .none,
                          onEditingChanged: { Bool in
                 self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
 
             },
-                         formatter: formatter)
+                         formatter: formatter).allowsHitTesting(!selector)
             SlidingRuler(value: $isoValue,
                          in: 50...128000,
                          step: 100,
-                         snap: .unit,
-                         tick: .fraction,
+                         snap: .none,
+                         tick: .none,
                          onEditingChanged: { Bool in
                 if selectedTab == 0 {
                     self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
@@ -108,9 +126,12 @@ struct ContentView: View {
             Spacer()
             Button("Calculate") {
                 print("HOI")
-//                reTakePhoto = true
+                if selectedTab == 0 {
+                    self.selector = false
+                } else {
+                    self.selector = true
+                }
                 pickedImage = true
-             
             }.sheet(isPresented: $pickedImage) {
                 ImagePicker(selectedImage: self.$imageSelected, eV: self.$EV)
             }
