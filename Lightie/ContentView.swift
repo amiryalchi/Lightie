@@ -68,21 +68,24 @@ struct ContentView: View {
             .pickerStyle(SegmentedPickerStyle())
             Spacer()
             ZStack{
-                liveView
-                    .cornerRadius(10)
                 Image(uiImage: imageSelected)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal, 3.0)
-                    .border( .black, width: 5)
+                    .frame(width: 300, height: 400, alignment: .center)
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .padding(.horizontal, 3.0)
+//                    .border( .black, width: 5)
                     .cornerRadius(10)
+                liveView
+                    .frame(width: 300, height: 400, alignment: .center)
+                    .cornerRadius(10)
+                
             }
             
             SlidingRuler(value: $shutterValue,
-                         in: 0...4,
+                         in: 0...100,
                          step: 0.1,
-                         snap: .half,
-                         tick: .half,
+                         snap: .unit,
+                         tick: .fraction,
                          onEditingChanged: { Bool in
                 self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
             },
@@ -90,8 +93,8 @@ struct ContentView: View {
             SlidingRuler(value: $apertureValue,
                          in: 0...32,
                          step: 1.0,
-                         snap: .none,
-                         tick: .none,
+                         snap: .unit,
+                         tick: .fraction,
                          onEditingChanged: { Bool in
                 self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
 
@@ -101,7 +104,7 @@ struct ContentView: View {
                          in: 50...128000,
                          step: 100,
                          snap: .none,
-                         tick: .none,
+                         tick: .fraction,
                          onEditingChanged: { Bool in
                 if selectedTab == 0 {
                     self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
