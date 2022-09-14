@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LiveViewController.swift
 //  Lightie
 //
 //  Created by Amir Yalchi on 2022-09-08.
@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import AVFoundation
 
-class ViewController: UIViewController {
+class LiveViewController: UIViewController {
     
     private var permissionGranted = false
     private let captureSession = AVCaptureSession()
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
 
 struct HostedViewController: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> some UIViewController {
-        return ViewController()
+        return LiveViewController()
     }
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         //code

@@ -15,20 +15,16 @@ struct ContentView: View {
     @State private var shutterValue: Double = 125
     @State private var apertureValue: Double = 2.8
     @State private var isoValue: Double = 100
+    @State private var nDValue: Double = 0.0
     @State var EV: Double = 0.0
     @State private var pickedImage: Bool = false
     @State var reTakePhoto = false
     @State var imageSelected = UIImage()
     @State var selector: Bool = false
     
-//    @State var width: CGRect
-//    @State var height: CGRect
-//
-//    init(){
-//        width = Image.siz
-//
-//    }
-//
+    private let compensationValues = [-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, +1.0, +2.0, +3.0, +4.0, +5.0, +6.0]
+    @State private var selectedCompensation = 6
+
     private var formatter: NumberFormatter {
         let f = NumberFormatter()
         f.numberStyle = .none
@@ -39,7 +35,6 @@ struct ContentView: View {
     
     func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double) -> Double {
 
-//        let ss = exp(2 * log2(fNumber) - ev - log2(iso / 3.125))
         let ss = (100 * pow(fNumber, 2.0)) / (iso * pow(2.0, ev))
 
         print("Calculated Sutter Speed: ", ss)
@@ -50,7 +45,6 @@ struct ContentView: View {
     
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double) -> Double {
 
-//        let FN = exp((ev + log2(aprSpeed) + log2(iso / 3.125)) / 2 )
         let FN = sqrt((aprSpeed * (iso * pow(2.0, ev))) / 100)
         
         print ("Calculated F Number: ", FN)
@@ -66,16 +60,11 @@ struct ContentView: View {
         VStack {
             ZStack{
                 Image(uiImage: imageSelected)
-                    .frame(width: 300, height: 400, alignment: .center)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .padding(.horizontal, 3.0)
-//                    .border( .black, width: 5)
+                    .frame(width: 300, height: 200, alignment: .center)
                     .cornerRadius(10)
                 liveView
-                    .frame(width: 300, height: 400, alignment: .center)
+                    .frame(width: 300, height: 200, alignment: .center)
                     .cornerRadius(10)
-                
             }
 
             Spacer()
@@ -128,19 +117,30 @@ struct ContentView: View {
                 }
             },
                          formatter: formatter)
-            SlidingRuler(value: $EV,
-                         in: -7...17,
-                         step: 1.0,
-                         snap: .fraction,
-                         tick: .fraction,
-                         onEditingChanged: { Bool in
-                if selectedTab == 0 {
-                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
-                } else {
-                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
-                }
-            },
-                         formatter: formatter).allowsHitTesting(false)
+            HStack {
+                SlidingRuler(value: $EV,
+                             in: -7...17,
+                             step: 1.0,
+                             snap: .fraction,
+                             tick: .fraction,
+                             onEditingChanged: { Bool in
+                    if selectedTab == 0 {
+                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+                    } else {
+                        self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                    }
+                },
+                             formatter: formatter)
+                .allowsHitTesting(false)
+                Spacer()
+                Picker("Please choose a color", selection: $selectedCompensation, content: {
+                    ForEach(0..<compensationValues.count ,content:{ index in
+                        Text(String(compensationValues[index]))
+                    })
+                })
+                .pickerStyle(WheelPickerStyle())
+            }
+            
             Spacer()
             Button("Calculate") {
                 print("HOI")
@@ -164,3 +164,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(EV: 10.0)
     }
 }
+ 
+
