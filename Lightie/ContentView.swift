@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SlidingRuler
+import Combine
 
 struct ContentView: View {
 
@@ -38,7 +39,8 @@ struct ContentView: View {
     
     func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double) -> Double {
 
-        let ss = exp(2 * log2(fNumber) - ev - log2(iso / 3.125))
+//        let ss = exp(2 * log2(fNumber) - ev - log2(iso / 3.125))
+        let ss = (100 * pow(fNumber, 2.0)) / (iso * pow(2.0, ev))
 
         print("Calculated Sutter Speed: ", ss)
         print("ISO IS: ", isoValue)
@@ -58,15 +60,9 @@ struct ContentView: View {
         
     var body: some View {
         
-        var liveView = HostedViewController()
+        let liveView = HostedViewController()
         
         VStack {
-            Picker("Selected Mode", selection: $selectedTab, content: {
-                Text("Aperture").tag(0)
-                Text("Shutter").tag(1)
-            })
-            .pickerStyle(SegmentedPickerStyle())
-            Spacer()
             ZStack{
                 Image(uiImage: imageSelected)
                     .frame(width: 300, height: 400, alignment: .center)
@@ -80,6 +76,24 @@ struct ContentView: View {
                     .cornerRadius(10)
                 
             }
+
+            Spacer()
+            Picker("Selected Mode", selection: $selectedTab, content: {
+                Text("Aperture").tag(0)
+                Text("Shutter").tag(1)
+            })
+            .onChange(of: selectedTab, perform: { newValue in
+                if selectedTab == 0 {
+                    self.selector = false
+                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+                } else {
+                    self.selector = true
+                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                }
+
+            })
+            .pickerStyle(SegmentedPickerStyle())
+
             
             SlidingRuler(value: $shutterValue,
                          in: 0...100,
@@ -107,9 +121,9 @@ struct ContentView: View {
                          tick: .fraction,
                          onEditingChanged: { Bool in
                 if selectedTab == 0 {
-                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
-                } else {
                     self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                } else {
+                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
                 }
             },
                          formatter: formatter)
