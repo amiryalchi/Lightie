@@ -50,7 +50,8 @@ struct ContentView: View {
     
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double) -> Double {
 
-        let FN = exp((ev + log2(aprSpeed) + log2(iso / 3.125)) / 2 )
+//        let FN = exp((ev + log2(aprSpeed) + log2(iso / 3.125)) / 2 )
+        let FN = sqrt((aprSpeed * (iso * pow(2.0, ev))) / 100)
         
         print ("Calculated F Number: ", FN)
         print("ISO IS : ", isoValue)
