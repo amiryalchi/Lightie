@@ -22,20 +22,20 @@ struct ContentView: View {
     @State var imageSelected = UIImage()
     @State var selector: Bool = false
     
-    private let compensationValues = [-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, +1.0, +2.0, +3.0, +4.0, +5.0, +6.0]
+    private let compensationValues: [Double] = [-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, +1.0, +2.0, +3.0, +4.0, +5.0, +6.0]
     @State private var selectedCompensation = 6
 
     private var formatter: NumberFormatter {
         let f = NumberFormatter()
-        f.numberStyle = .none
+        f.numberStyle = .decimal
         f.generatesDecimalNumbers = true
-        f.maximumFractionDigits = 0
+        f.maximumFractionDigits = 2
         return f
        }
     
-    func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double) -> Double {
-
-        let ss = (100 * pow(fNumber, 2.0)) / (iso * pow(2.0, ev))
+    func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double, compensation: Double) -> Double {
+        let newEv = (-0.33 * compensation) + ev
+        let ss = (100 * pow(fNumber, 2.0)) / (iso * pow(2.0, newEv))
 
         print("Calculated Sutter Speed: ", ss)
         print("ISO IS: ", isoValue)
@@ -43,9 +43,9 @@ struct ContentView: View {
         return ss
     }
     
-    func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double) -> Double {
-
-        let FN = sqrt((aprSpeed * (iso * pow(2.0, ev))) / 100)
+    func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double, compensation: Double) -> Double {
+        let newEv = (-0.33 * compensation) + ev
+        let FN = sqrt((aprSpeed * (iso * pow(2.0, newEv))) / 100)
         
         print ("Calculated F Number: ", FN)
         print("ISO IS : ", isoValue)
@@ -75,10 +75,10 @@ struct ContentView: View {
             .onChange(of: selectedTab, perform: { newValue in
                 if selectedTab == 0 {
                     self.selector = false
-                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
                 } else {
                     self.selector = true
-                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
                 }
 
             })
@@ -91,7 +91,7 @@ struct ContentView: View {
                          snap: .unit,
                          tick: .fraction,
                          onEditingChanged: { Bool in
-                self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+                self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
             },
                          formatter: formatter).allowsHitTesting(selector)
             SlidingRuler(value: $apertureValue,
@@ -100,7 +100,7 @@ struct ContentView: View {
                          snap: .unit,
                          tick: .fraction,
                          onEditingChanged: { Bool in
-                self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
 
             },
                          formatter: formatter).allowsHitTesting(!selector)
@@ -111,34 +111,52 @@ struct ContentView: View {
                          tick: .fraction,
                          onEditingChanged: { Bool in
                 if selectedTab == 0 {
-                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+                    self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
                 } else {
-                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+                    self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
                 }
             },
                          formatter: formatter)
             HStack {
-                SlidingRuler(value: $EV,
-                             in: -7...17,
-                             step: 1.0,
-                             snap: .fraction,
-                             tick: .fraction,
-                             onEditingChanged: { Bool in
-                    if selectedTab == 0 {
-                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
-                    } else {
-                        self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
-                    }
-                },
-                             formatter: formatter)
-                .allowsHitTesting(false)
+//                SlidingRuler(value: $EV,
+//                             in: -7...17,
+//                             step: 1.0,
+//                             snap: .fraction,
+//                             tick: .fraction,
+//                             onEditingChanged: { Bool in
+//                    if selectedTab == 0 {
+//                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue)
+//                    } else {
+//                        self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue)
+//                    }
+//                },
+//                             formatter: formatter)
+//                .allowsHitTesting(false)
                 Spacer()
-                Picker("Please choose a color", selection: $selectedCompensation, content: {
+                HStack{
+                    Spacer()
+                    Text("EV")
+                    Spacer()
+                    Text(formatter.string(from: NSNumber(value: EV))!)
+                    Spacer()
+                }
+                Spacer()
+                Picker("Compensation Value", selection: $selectedCompensation, content: {
                     ForEach(0..<compensationValues.count ,content:{ index in
                         Text(String(compensationValues[index]))
                     })
                 })
+                .onChange(of: selectedCompensation, perform: { selected in
+                    print("selected value is :", compensationValues[selected])
+                    if selectedTab == 1 {
+                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
+                    } else {
+                        self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
+                    }
+                })
                 .pickerStyle(WheelPickerStyle())
+                .frame(width: 100)
+                Spacer()
             }
             
             Spacer()
