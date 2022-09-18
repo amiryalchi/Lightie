@@ -74,9 +74,10 @@ struct ContentView: View {
                 liveView
                     .frame(width: 300, height: 200, alignment: .center)
                     .cornerRadius(10)
+                Spacer()
             }
 
-            Spacer()
+            Divider().background(Color.white)
             Picker("Selected Mode", selection: $selectedTab, content: {
                 Text("Aperture").tag(0)
                 Text("Shutter").tag(1)
@@ -132,11 +133,10 @@ struct ContentView: View {
                     Divider().background(Color.white)
                 }
                 
-                
             }
             
                 Spacer()
-                HStack{
+                HStack {
                     Spacer()
                     Text("EV")
                     Text(formatter.string(from: NSNumber(value: EV))!)
@@ -149,12 +149,12 @@ struct ContentView: View {
                     })
                     .frame(width: 50, height: 100)
                     .clipped()
+                    .compositingGroup()
                     .onChange(of: selectedCompensation, perform: { selected in
                         print("selected value is :", compensationValues[selected])
-
                     shutterOrAperture()
                     })
-                    .pickerStyle(WheelPickerStyle())
+                    .pickerStyle(InlinePickerStyle())
                     Spacer()
 
                 }
