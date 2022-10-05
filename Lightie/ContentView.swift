@@ -93,15 +93,19 @@ struct ContentView: View {
                 VStack {
                     Divider().background(Color.white)
                     Text("Shutter Speed")
-                    SlidingRuler(value: $shutterValue,
-                                 in: 0...100,
-                                 step: 1.0,
-                                 snap: .unit,
-                                 tick: .fraction,
-                                 onEditingChanged: { Bool in
-                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
-                    },
-                                 formatter: formatter).allowsHitTesting(selector)
+                    Slider(value: $shutterValue, in: 1...100, step: Double.Stride((powf(2.0, Float(shutterValue)))))
+
+                    
+                    
+//                    SlidingRuler(value: $shutterValue,
+//                                 in: 0...100,
+//                                 step: 1.0,
+//                                 snap: .unit,
+//                                 tick: .fraction,
+//                                 onEditingChanged: { Bool in
+//                        self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
+//                    },
+//                                 formatter: formatter).allowsHitTesting(selector)
                 }
                 Divider().background(Color.white)
                 VStack {
@@ -156,7 +160,6 @@ struct ContentView: View {
                     })
                     .pickerStyle(InlinePickerStyle())
                     Spacer()
-
                 }
             
             Spacer()
@@ -169,6 +172,10 @@ struct ContentView: View {
                 }
                 pickedImage = true
             }
+            .foregroundColor(.white)
+            .frame(width: 300, height: 50)
+            .background(Color.orange)
+            .cornerRadius(10)
             .sheet(isPresented: $pickedImage) {
                 ImagePicker(selectedImage: self.$imageSelected, eV: self.$EV)
             }

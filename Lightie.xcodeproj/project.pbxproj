@@ -12,7 +12,6 @@
 		296FCD7528C81D8200CAE1CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 296FCD7428C81D8200CAE1CB /* Preview Assets.xcassets */; };
 		296FCD7D28C8294000CAE1CB /* SlidingRuler in Frameworks */ = {isa = PBXBuildFile; productRef = 296FCD7C28C8294000CAE1CB /* SlidingRuler */; };
 		297E609828CA30400083D936 /* LiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E609728CA30400083D936 /* LiveViewController.swift */; };
-		298BF78828D6CE8F00473EA4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BF78728D6CE8F00473EA4 /* File.swift */; };
 		29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A168DC28C908B800BBAB27 /* ImagePicker.swift */; };
 		29A168DE28C914C700BBAB27 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296FCD6F28C81D7D00CAE1CB /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -24,7 +23,6 @@
 		296FCD7128C81D8200CAE1CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		296FCD7428C81D8200CAE1CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		297E609728CA30400083D936 /* LiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewController.swift; sourceTree = "<group>"; };
-		298BF78728D6CE8F00473EA4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		29A168DC28C908B800BBAB27 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,7 +63,6 @@
 				296FCD7128C81D8200CAE1CB /* Assets.xcassets */,
 				296FCD7328C81D8200CAE1CB /* Preview Content */,
 				297E609728CA30400083D936 /* LiveViewController.swift */,
-				298BF78728D6CE8F00473EA4 /* File.swift */,
 			);
 			path = Lightie;
 			sourceTree = "<group>";
@@ -154,7 +151,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				298BF78828D6CE8F00473EA4 /* File.swift in Sources */,
 				29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */,
 				296FCD6E28C81D7D00CAE1CB /* LightieApp.swift in Sources */,
 				297E609828CA30400083D936 /* LiveViewController.swift in Sources */,
@@ -284,18 +280,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Lightie/Preview Content\"";
 				DEVELOPMENT_TEAM = 34N5DE7JK9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lightie;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please let Lightie use the camera!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,9 +300,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amirYalchi.Lightie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -314,18 +314,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Lightie/Preview Content\"";
 				DEVELOPMENT_TEAM = 34N5DE7JK9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lightie;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please let Lightie use the camera!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,9 +334,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amirYalchi.Lightie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
