@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct LightieApp: App {
+    
+    @StateObject var viewModel = AppViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
         }
     }
 }

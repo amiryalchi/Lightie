@@ -14,6 +14,7 @@
 		297E609828CA30400083D936 /* LiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E609728CA30400083D936 /* LiveViewController.swift */; };
 		29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A168DC28C908B800BBAB27 /* ImagePicker.swift */; };
 		29A168DE28C914C700BBAB27 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296FCD6F28C81D7D00CAE1CB /* ContentView.swift */; };
+		29C9E23928EE4FBE008AAA1F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C9E23828EE4FBE008AAA1F /* AppViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		296FCD7428C81D8200CAE1CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		297E609728CA30400083D936 /* LiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewController.swift; sourceTree = "<group>"; };
 		29A168DC28C908B800BBAB27 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		29C9E23828EE4FBE008AAA1F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +62,10 @@
 				296FCD6D28C81D7D00CAE1CB /* LightieApp.swift */,
 				296FCD6F28C81D7D00CAE1CB /* ContentView.swift */,
 				29A168DC28C908B800BBAB27 /* ImagePicker.swift */,
+				297E609728CA30400083D936 /* LiveViewController.swift */,
 				296FCD7128C81D8200CAE1CB /* Assets.xcassets */,
 				296FCD7328C81D8200CAE1CB /* Preview Content */,
-				297E609728CA30400083D936 /* LiveViewController.swift */,
+				29C9E23828EE4FBE008AAA1F /* AppViewModel.swift */,
 			);
 			path = Lightie;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29C9E23928EE4FBE008AAA1F /* AppViewModel.swift in Sources */,
 				29A168DD28C908B800BBAB27 /* ImagePicker.swift in Sources */,
 				296FCD6E28C81D7D00CAE1CB /* LightieApp.swift in Sources */,
 				297E609828CA30400083D936 /* LiveViewController.swift in Sources */,
