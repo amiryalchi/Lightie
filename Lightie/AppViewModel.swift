@@ -16,6 +16,7 @@ class AppViewModel: ObservableObject {
     @Published var isoValue: Double = 100
     @Published var EV: Double = 0.0
     @Published var selector: Bool = false
+    @Published var shutterDisplay: Double = 125
     
     let compensationValues: [Double] = [-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, +1.0, +2.0, +3.0, +4.0, +5.0, +6.0]
     @Published var selectedCompensation = 6
@@ -43,11 +44,20 @@ class AppViewModel: ObservableObject {
     func shutterOrAperture(){
         if selectedTab == 0 {
             self.selector = false
-            self.shutterValue = calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
+            self.shutterValue = self.calculateShutterSpeed(fNumber: apertureValue, ev: EV , iso: isoValue, compensation: compensationValues[selectedCompensation])
+            self.shutterDisplay = self.shutterLogScale(shutter: 1 / shutterValue)
         } else {
             self.selector = true
-            self.apertureValue = calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
+            self.apertureValue = self.calculateFNumber(aprSpeed: shutterValue, ev: EV, iso: isoValue, compensation: compensationValues[selectedCompensation])
         }
+    }
+    
+    func shutterPowerScale(shutter: Double) -> Double {
+        return Double(powf(10,Float(shutter)))
+    }
+    
+    func shutterLogScale(shutter: Double) -> Double {
+        return log10(shutter)
     }
     
 }

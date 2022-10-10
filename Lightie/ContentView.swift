@@ -11,16 +11,15 @@ import Combine
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: AppViewModel
-//    @State private var nDValue: Double = 0.0
     @State var pickedImage: Bool = false
-//    @State var reTakePhoto = false
     @State var imageSelected = UIImage()
+    var value: Double = 2.0
     
     private var formatter: NumberFormatter {
         let f = NumberFormatter()
         f.numberStyle = .decimal
         f.generatesDecimalNumbers = true
-        f.maximumFractionDigits = 2
+        f.maximumFractionDigits = 1
         return f
        }
 
@@ -55,26 +54,50 @@ struct ContentView: View {
             VStack{
                 VStack {
                     Divider().background(Color.white)
-                    Text("Shutter Speed")
+//                    Text(String(format:"%.0f", viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)))
+                    if viewModel.shutterValue < 0.5 {
+                        Text("1/ " + String(format:"%.0f",viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)) + "  S")
 
-                    SlidingRuler(value: $viewModel.shutterValue,
-                                 in: 0...100,
-                                 step: 1.0,
-                                 snap: .unit,
-                                 tick: .fraction,
-                                 onEditingChanged: { Bool in
-                        viewModel.apertureValue =  viewModel.calculateFNumber(aprSpeed: viewModel.shutterValue,
-                                                              ev: viewModel.EV,
-                                                              iso: viewModel.isoValue,
-                                                                         compensation:  viewModel.compensationValues[ viewModel.selectedCompensation])
-                    },
-                                 formatter: formatter).allowsHitTesting(viewModel.selector)
+                    } else {
+                        Text(String(round(viewModel.shutterValue)) + "   S")
+                    }
+//                    Slider(value: $viewModel.shutterDisplay, in: -3...3, step: 0.3, onEditingChanged: { Bool in
+//                        viewModel.shutterValue = 1 / viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)
+//                        viewModel.apertureValue =  viewModel.calculateFNumber(aprSpeed: viewModel.shutterValue,
+//                                                              ev: viewModel.EV,
+//                                                              iso: viewModel.isoValue,
+//                                                                         compensation:  viewModel.compensationValues[ viewModel.selectedCompensation])
+//                    }).allowsHitTesting(viewModel.selector)
+                    
+                    ZStack(alignment: .bottom) {
+                        SlidingRuler(value: $viewModel.shutterDisplay,
+                                     in: -3...3,
+                                     step: 0.3,
+                                     snap: .half,
+                                     tick: .half,
+                                     onEditingChanged: { Bool in
+                            viewModel.shutterValue = 1 / viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)
+                            viewModel.apertureValue =  viewModel.calculateFNumber(aprSpeed: viewModel.shutterValue,
+                                                                  ev: viewModel.EV,
+                                                                  iso: viewModel.isoValue,
+                                                                             compensation:  viewModel.compensationValues[ viewModel.selectedCompensation])
+                        },
+                                     formatter: formatter).allowsHitTesting(viewModel.selector)
+                        Rectangle()
+                            .fill(.background)
+                            .frame(height: 15)
+                            
+                    }
+                    
+                    
+                    
                 }
                 Divider().background(Color.white)
                 VStack {
                     Text("F Stop")
+                    
                     SlidingRuler(value: $viewModel.apertureValue,
-                                 in: 0...32,
+                                 in: 1...32,
                                  step: 1.0,
                                  snap: .unit,
                                  tick: .fraction,
@@ -83,7 +106,8 @@ struct ContentView: View {
                                                                   ev: viewModel.EV ,
                                                                   iso: viewModel.isoValue,
                                                                              compensation:  viewModel.compensationValues[ viewModel.selectedCompensation])
-                        
+                        viewModel.shutterDisplay = viewModel.shutterLogScale(shutter: 1 / viewModel.shutterValue)
+
                     },
                                  formatter: formatter).allowsHitTesting(!viewModel.selector)
                 }
