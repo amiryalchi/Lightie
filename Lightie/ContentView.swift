@@ -56,10 +56,10 @@ struct ContentView: View {
                     Divider().background(Color.white)
 //                    Text(String(format:"%.0f", viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)))
                     if viewModel.shutterValue < 0.5 {
-                        Text("1/ " + String(format:"%.0f",viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)) + "  S")
+                        Text("Shutter Speed  1/ " + String(format:"%.0f",viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)) + "  S")
 
                     } else {
-                        Text(String(round(viewModel.shutterValue)) + "   S")
+                        Text("Shutter Speed  " + String(format:"%.0f",round(viewModel.shutterValue)) + "   S")
                     }
 //                    Slider(value: $viewModel.shutterDisplay, in: -3...3, step: 0.3, onEditingChanged: { Bool in
 //                        viewModel.shutterValue = 1 / viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)
@@ -137,7 +137,7 @@ struct ContentView: View {
                     Spacer()
                     Text("Compensation :")
                     Picker("Compensation Value", selection: $viewModel.selectedCompensation, content: {
-                        ForEach(0..<viewModel.compensationValues.count ,content:{ index in
+                        ForEach(0..<viewModel.compensationValues.count, id: \.self ,content:{ index in
                             Text(String( viewModel.compensationValues[index]))
                         })
                     })

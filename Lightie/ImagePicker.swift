@@ -20,6 +20,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         let imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .camera
+        imagePicker.cameraFlashMode = .off
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
@@ -57,16 +58,17 @@ struct ImagePicker: UIViewControllerRepresentable {
             parent.presentationMode.wrappedValue.dismiss()   
         }
         
-        func reTakePhoto() {
-            
-            pickedImage = false
-            if UIImagePickerController.isSourceTypeAvailable(.camera) && !pickedImage {
-                let ImagePickerController = UIImagePickerController()
-                ImagePickerController.sourceType = .camera
-//                parent.selectedImage = image
-                pickedImage = true
-            }
-        }
+//        func reTakePhoto() {
+//            
+//            pickedImage = false
+//            if UIImagePickerController.isSourceTypeAvailable(.camera) && !pickedImage {
+//                let ImagePickerController = UIImagePickerController()
+//                ImagePickerController.sourceType = .camera
+//                ImagePickerController.cameraFlashMode = .off
+////                parent.selectedImage = image
+//                pickedImage = true
+//            }
+//        }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
