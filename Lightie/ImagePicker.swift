@@ -49,26 +49,24 @@ struct ImagePicker: UIViewControllerRepresentable {
                 let dictionary = info[.mediaMetadata] as! NSDictionary
                 guard let exif = dictionary["{Exif}"] as? NSDictionary else {return}
                 guard let brg = exif["BrightnessValue"] as? Double? else {return}
+                
+                guard let apertureValue = exif["ApertureValue"] as? Double? else {return}
+                guard let iSOSpeedRatings = exif["ISOSpeedRatings"] as? [Double]? else {return}
+                guard let exposureTime = exif["ExposureTime"] as? Double? else {return}
 //                print("BRIGHTNESS: ", dictionary)
-                print("BRIGHTNESS EV: ", brg!)
-                parent.eV = Double(brg!)
+                print("BRIGHTNESS VALUE: ", brg!)
+                parent.eV = EVCalculator(apValue: apertureValue!, isoValue: iSOSpeedRatings![0], expoValue: exposureTime!)
+                print("EXPOSURE VALUE: ", parent.eV)
                 pickedImage = false
             }
             
             parent.presentationMode.wrappedValue.dismiss()   
         }
         
-//        func reTakePhoto() {
-//            
-//            pickedImage = false
-//            if UIImagePickerController.isSourceTypeAvailable(.camera) && !pickedImage {
-//                let ImagePickerController = UIImagePickerController()
-//                ImagePickerController.sourceType = .camera
-//                ImagePickerController.cameraFlashMode = .off
-////                parent.selectedImage = image
-//                pickedImage = true
-//            }
-//        }
+        func EVCalculator(apValue: Double, isoValue: Double, expoValue: Double) -> Double {
+            return log2((100 * pow(apValue,2)) / (isoValue * expoValue))
+        }
+        
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()

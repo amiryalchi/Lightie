@@ -94,7 +94,8 @@ struct ContentView: View {
                 }
                 Divider().background(Color.white)
                 VStack {
-                    Text("F Stop")
+//                    Text("F Stop")
+                    Text("F Stop  " + String(format:"%.1f",viewModel.apertureValue))
                     
                     SlidingRuler(value: $viewModel.apertureValue,
                                  in: 1...32,
@@ -113,7 +114,8 @@ struct ContentView: View {
                 }
                 Divider().background(Color.white)
                 VStack (alignment: .custom) {
-                    Text("ISO")
+//                    Text("ISO")
+                    Text("ISO  " + String(format:"%.0f",round(viewModel.isoValue)))
                         .alignmentGuide(VerticalAlignment.custom) { d in d[.top] }
                     SlidingRuler(value: $viewModel.isoValue,
                                  in: 50...128000,

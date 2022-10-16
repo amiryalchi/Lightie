@@ -24,7 +24,7 @@ class AppViewModel: ObservableObject {
     func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double, compensation: Double) -> Double {
         let newEv = (-0.33 * compensation) + ev
         let ss = (100 * pow(fNumber, 2.0)) / (iso * pow(2.0, newEv))
-
+        
         print("Calculated Sutter Speed: ", ss)
         print("ISO IS: ", isoValue)
         print("F NUMBER: ", apertureValue)
@@ -33,7 +33,7 @@ class AppViewModel: ObservableObject {
     
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double, compensation: Double) -> Double {
         let newEv = (-0.33 * compensation) + ev
-        let FN = sqrt((aprSpeed * (iso * pow(2.0, newEv))) / 100)
+        let FN = sqrt((aprSpeed * iso * pow(2.0, newEv)) / 100)
         
         print ("Calculated F Number: ", FN)
         print("ISO IS : ", isoValue)
