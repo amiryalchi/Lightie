@@ -5,6 +5,10 @@
 //  Created by Amir Yalchi on 2022-09-08.
 //
 
+
+// this class in responsible for the live view and accessing the camera
+
+
 import UIKit
 import SwiftUI
 import AVFoundation
@@ -27,6 +31,8 @@ class LiveViewController: UIViewController {
         }
     }
     
+    // this method check the permission to access the camera if it's granted or not
+    
     func checkPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized: permissionGranted = true
@@ -35,6 +41,8 @@ class LiveViewController: UIViewController {
         }
     }
     
+    // this method request for mermission to have access to the camera
+    
     func requestPermission() {
         sessionQueue.suspend()
         AVCaptureDevice.requestAccess(for: .video, completionHandler:  { [unowned self] granted in
@@ -42,6 +50,8 @@ class LiveViewController: UIViewController {
             self.sessionQueue.resume()
         })
     }
+    
+    // this method setup the live view and frame it in the defined frame.
     
     func setupCaptureSession() {
         guard let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) else { return }

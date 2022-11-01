@@ -18,8 +18,12 @@ class AppViewModel: ObservableObject {
     @Published var selector: Bool = false
     @Published var shutterDisplay: Double = 125
     
+    // compensation values range from -6 to +6 the difault value is set on 0
+    
     let compensationValues: [Double] = [-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, +1.0, +2.0, +3.0, +4.0, +5.0, +6.0]
     @Published var selectedCompensation = 6
+    
+    // this function calculates shutter speed with the imputs of aperture number, iso value and EV
     
     func calculateShutterSpeed(fNumber: Double, ev: Double, iso: Double, compensation: Double) -> Double {
         let newEv = (-0.33 * compensation) + ev
@@ -31,6 +35,8 @@ class AppViewModel: ObservableObject {
         return ss
     }
     
+    // this function calculates F number with the imputs of ashutter speed, iso value and EV
+    
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double, compensation: Double) -> Double {
         let newEv = (-0.33 * compensation) + ev
         let FN = sqrt((aprSpeed * iso * pow(2.0, newEv)) / 100)
@@ -40,6 +46,8 @@ class AppViewModel: ObservableObject {
         print("SHUTTER SPEED : ", shutterValue)
         return FN
     }
+    
+    // this function switch between the shutter speed or the F number 
     
     func shutterOrAperture(){
         if selectedTab == 0 {

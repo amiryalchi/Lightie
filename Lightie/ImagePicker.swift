@@ -41,6 +41,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent   
         }
         
+    // with this method the photo optain from the camera and from the exif file iso, aperture value and shutter extracts
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             
@@ -53,7 +54,6 @@ struct ImagePicker: UIViewControllerRepresentable {
                 guard let apertureValue = exif["ApertureValue"] as? Double? else {return}
                 guard let iSOSpeedRatings = exif["ISOSpeedRatings"] as? [Double]? else {return}
                 guard let exposureTime = exif["ExposureTime"] as? Double? else {return}
-//                print("BRIGHTNESS: ", dictionary)
                 print("BRIGHTNESS VALUE: ", brg!)
                 parent.eV = EVCalculator(apValue: apertureValue!, isoValue: iSOSpeedRatings![0], expoValue: exposureTime!)
                 print("EXPOSURE VALUE: ", parent.eV)
@@ -62,6 +62,8 @@ struct ImagePicker: UIViewControllerRepresentable {
             
             parent.presentationMode.wrappedValue.dismiss()   
         }
+        
+    // this function calculates the EV value from the exif file from the camera
         
         func EVCalculator(apValue: Double, isoValue: Double, expoValue: Double) -> Double {
             return log2((100 * pow(apValue,2)) / (isoValue * expoValue))

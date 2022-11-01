@@ -10,6 +10,9 @@ import SlidingRuler
 import Combine
 
 struct ContentView: View {
+    
+    // Inserting View Model environmental object to be accessible globally
+    
     @EnvironmentObject var viewModel: AppViewModel
     @State var pickedImage: Bool = false
     @State var imageSelected = UIImage()
@@ -29,6 +32,7 @@ struct ContentView: View {
         Spacer()
         VStack {
             ZStack{
+    //  liveView object is displaying live video from the camera in a frame 300 * 200
                 liveView
                     .frame(width: 300, height: 200, alignment: .center)
                     .cornerRadius(10)
@@ -54,20 +58,12 @@ struct ContentView: View {
             VStack{
                 VStack {
                     Divider().background(Color.white)
-//                    Text(String(format:"%.0f", viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)))
                     if viewModel.shutterValue < 0.5 {
                         Text("Shutter Speed  1/ " + String(format:"%.0f",viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)) + "  S")
 
                     } else {
                         Text("Shutter Speed  " + String(format:"%.0f",round(viewModel.shutterValue)) + "   S")
                     }
-//                    Slider(value: $viewModel.shutterDisplay, in: -3...3, step: 0.3, onEditingChanged: { Bool in
-//                        viewModel.shutterValue = 1 / viewModel.shutterPowerScale(shutter: viewModel.shutterDisplay)
-//                        viewModel.apertureValue =  viewModel.calculateFNumber(aprSpeed: viewModel.shutterValue,
-//                                                              ev: viewModel.EV,
-//                                                              iso: viewModel.isoValue,
-//                                                                         compensation:  viewModel.compensationValues[ viewModel.selectedCompensation])
-//                    }).allowsHitTesting(viewModel.selector)
                     
                     ZStack(alignment: .bottom) {
                         SlidingRuler(value: $viewModel.shutterDisplay,
@@ -94,7 +90,6 @@ struct ContentView: View {
                 }
                 Divider().background(Color.white)
                 VStack {
-//                    Text("F Stop")
                     Text("F Stop  " + String(format:"%.1f",viewModel.apertureValue))
                     
                     SlidingRuler(value: $viewModel.apertureValue,
@@ -114,7 +109,6 @@ struct ContentView: View {
                 }
                 Divider().background(Color.white)
                 VStack (alignment: .custom) {
-//                    Text("ISO")
                     Text("ISO  " + String(format:"%.0f",round(viewModel.isoValue)))
                         .alignmentGuide(VerticalAlignment.custom) { d in d[.top] }
                     SlidingRuler(value: $viewModel.isoValue,
@@ -177,7 +171,8 @@ struct ContentView: View {
         }
 }
 
- 
+ // expension for alignment method for stacks 
+
 extension HorizontalAlignment {
     enum Custom: AlignmentID {
         static func defaultValue(in d: ViewDimensions) -> CGFloat {
